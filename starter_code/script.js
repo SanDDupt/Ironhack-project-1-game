@@ -2,6 +2,7 @@
 
 var canvas = document.getElementById('structure');
 var ctx = canvas.getContext("2d");
+var clickCount = 0;
 
 
 canvas.style.border = "1px solid red";
@@ -25,10 +26,13 @@ document.getElementById('structure').addEventListener('click',function(evt) {
 
 
   for (var j = 0; j < 7; j++) {
+  if (evt.clientX >= (100*j) && evt.clientX < (100+100*j)){
 
+    clickCount++ ;
 
-  if (evt.clientX >= (100*j) && evt.clientX <= (100+100*j)){
-    ctx.fillStyle = "#FFFF00";
+    if (clickCount % 2 === 0) { ctx.fillStyle = "#FF0000"; }
+    else { ctx.fillStyle = "#FFFF00";}
+
     ctx.beginPath();
     ctx.arc((50+100*j), 50, 40, 0, 2 * Math.PI, true);
     ctx.fill();
