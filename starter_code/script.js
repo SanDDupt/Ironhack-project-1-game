@@ -172,9 +172,16 @@ function gameOver() {
     console.log("gagnant");
     setTimeout(function() {
       ctx.fillStyle = "black";
+      ctx.font ="22pt Trebuchet MS";
       ctx.save();
       clearInterval(intervalId);
-      ctx.fillText("Le gagnant est le joueur .....", 10, 90);
+
+      ctx.fillText("le gagnant est le joueur ...", 70, 50);
+      /*if (positions[x][y].player.color === "yellow") {
+      ctx.fillText("Le gagnant est le joueur jaune", 70, 50);
+      }
+      else {ctx.fillText("Le gagnant est le joueur rouge", 70, 50);}*/
+
       ctx.restore();
     }, 3000);
   }
