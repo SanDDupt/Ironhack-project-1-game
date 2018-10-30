@@ -1,23 +1,22 @@
 .container {
   display: flex;
   justify-content: space-around;
-  border : 10px solid;
+  border: 10px solid;
 }
 
 #game-intro {
   display: flex;
   flex-direction: column;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 
 #game-board {
   display: flex;
-  
 }
 
 h1 {
   display: flex;
-  
 }
 p {
   display: flex;
