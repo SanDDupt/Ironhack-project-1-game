@@ -22,10 +22,11 @@ function drawBoard() {
   ctx.fillStyle = "#0000FF";
 
   for (var i = 0; i < 6; i++) {
+    // 6 lignes
     ctx.fillRect(0, 100 + 100 * i, 700, 20);
   }
 
-  ctx.fillRect(0, 100, 10, 600);
+  ctx.fillRect(0, 100, 10, 600); // 7 colonnes
   for (var j = 0; j < 7; j++) {
     ctx.fillRect(90 + 100 * j, 100, 20, 600);
   }
@@ -51,23 +52,18 @@ document.getElementById("structure").addEventListener("click", function(evt) {
       var jeton = new Jeton(x, y, player); // définition du jeton
       jetons.push(jeton); //liste de tous les jetons créés
 
-      if (positions[5][j] === 0) {
-        jeton.maxy = 650;
-        positions[5][j] = jeton;
-      } else if (positions[4][j] === 0) {
-        positions[4][j] = jeton;
-        jeton.maxy = 550;
-      } else if (positions[3][j] === 0) {
-        jeton.maxy = 450;
-      } else if (positions[2][j] === 0) {
-        jeton.maxy = 350;
-      } else if (positions[1][j] === 0) {
-        jeton.maxy = 250;
-      } else if (positions[0][j] === 0) {
-        jeton.maxy = 150;
+      for (var k = 0; k < 6; k++) {
+        // contrôle la descente des jetons  avec maxy
+        if (positions[5 - k][j] === 0) {
+          jeton.maxy = 650 - 100 * k;
+          positions[5 - k][j] = jeton;
+          break;
+        }
       }
     }
   }
+  //isWon(positions);
+  //gameOver();
 });
 
 function Jeton(x, y, player) {
@@ -103,13 +99,67 @@ function update() {
   ctx.clearRect(0, 0, 710, 720);
   jetons.forEach(function(jeton) {
     // dessiner tous les jetons déjà crées
-
     jeton.goDown();
-
     jeton.draw();
   });
-  drawBoard(); // dessiné après les jetons pour que ces derniers descendent derrière
+  drawBoard(); // plateau dessiné après les jetons pour que ces derniers descendent derrière
 }
 setInterval(update, 20);
 
-//function Game(//player, count, positions) {}
+function isWon(positions) {
+  // retourne un boolean, suivant qu'il y a un gagnant (true) ou aucun gagnant (false)
+  for (var i = 0; i < 6; i++) {
+    for (var j = 0; j < 7; j++) {
+      var result = testAlign(i, j);
+      if (result) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function testAlign(x, y) {
+  //
+  for (var vx = -1; vx < 2; vx++) {
+    for (var vy = -1; vy < 2; vy++) {
+      var result = testAlignWithDirection(x, y, vx, vy);
+      if (result) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function testAlignWithDirection(x, y, vx, vy) {
+  // test dans les 8 directions, avec test d'arrêt quand on sort du plateau
+  if (x + 3 * vx < 0 || x + 3 * vx > 6 || y + 3 * vy < 0 || y + 3 * vy > 7) {
+    return false;
+  } else if (
+    positions[x + vx][y + vy].player === positions[x][y].player &&
+    positions[x + 2 * vx][y + 2 * vy].player === positions[x][y].player &&
+    positions[x + 3 * vx][y + 3 * vy].player === positions[x][y].player
+  ) {
+    return true;
+  }
+  return false;
+}
+
+// APPELER LES FONCTIONS
+
+function gameOver() {
+  if (isWon()) {
+    ctx.fillStyle = "black";
+    ctx.save();
+    ctx.fillText("Le gagnant est le joueur .....", 5, 15);
+    ctx.restore();
+  }
+  /*else {                          //Match NUL : seulement à la fin du jeu
+    ctx.fillStyle = "black";
+    ctx.save();
+    ctx.fillText("Match nul", 5, 15);
+    ctx.restore();
+  }*/
+}
+
