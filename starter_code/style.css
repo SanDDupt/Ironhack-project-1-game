@@ -1,7 +1,8 @@
 .container {
   display: flex;
   justify-content: space-around;
-  border: 10px solid;
+  border: 10px solid #7E7774;
+  background-color: #F1E2DB;
 }
 
 #game-intro {
@@ -21,4 +22,16 @@ h1 {
 p {
   display: flex;
   margin-top: 10%;
+}
+
+button {
+  font-size: 30px;
+  background-color: #870007;
+  color: #fff;
+  padding: 20px 40px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-top : 225px;
+  margin-bottom: 20px;
 }

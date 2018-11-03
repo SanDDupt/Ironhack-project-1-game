@@ -71,7 +71,6 @@ document.getElementById("structure").addEventListener("click", function(evt) {
       }
     }
   }
-
   gameOver();
 });
 
@@ -161,34 +160,69 @@ function testAlignWithDirection(x, y, vx, vy) {
   ) {
     return true;
   }
-
   return false;
 }
 
-// APPELER LES FONCTIONS
-
 function gameOver() {
+  // affichage du message "Gagné !" en fin de partie, si alignement de 4 jetons
   if (isWon()) {
-    console.log("gagnant");
     setTimeout(function() {
       ctx.fillStyle = "black";
-      ctx.font ="22pt Trebuchet MS";
+      ctx.font = "22pt Trebuchet MS";
       ctx.save();
       clearInterval(intervalId);
+      ctx.fillText("Gagné !", 70, 50);
+      ctx.restore();
+    }, 3000);
+  }
 
-      ctx.fillText("le gagnant est le joueur ...", 70, 50);
-      /*if (positions[x][y].player.color === "yellow") {
+       // BOUTON RESTART A REFAIRE
+  /*document.getElementById("restart-button").onclick = function() {
+    ctx.clearRect(0, 0, 710, 720);
+    clearInterval(intervalId);
+    
+    drawBoard();
+        
+    // ne permet pas de rejouer des jetons
+  };
+  */
+
+
+      // TEST MATCH NUL A REFAIRE
+  /* for (var i = 0; i < 6; i++) {   
+    for (var j = 0; j < 7; j++) {
+      if ( positions[x][y] !== 0 ) {
+          setTimeout(function() {
+            ctx.fillStyle = "black";
+            ctx.font = "22pt Trebuchet MS";
+            ctx.save();
+            clearInterval(intervalId);
+            ctx.fillText("Match nul !", 70, 50);
+            ctx.restore();  
+          }, 3000);
+      }
+    }
+  }
+  */
+
+}
+
+
+
+
+
+
+
+
+//---------------------------------------------------------------------
+/*if (positions[x][y].player.color === "yellow") {
       ctx.fillText("Le gagnant est le joueur jaune", 70, 50);
       }
       else {ctx.fillText("Le gagnant est le joueur rouge", 70, 50);}*/
 
-      ctx.restore();
-    }, 3000);
-  }
-  /*else {                          //Match NUL : seulement à la fin du jeu
+/*else {                          //Match NUL : seulement à la fin du jeu
     ctx.fillStyle = "black";
     ctx.save();
     ctx.fillText("Match nul", 5, 15);
     ctx.restore();
   }*/
-}
