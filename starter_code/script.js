@@ -1,5 +1,9 @@
 var canvas = document.getElementById("structure");
 var ctx = canvas.getContext("2d");
+
+var canvasWidth = 710;
+var canvasHeight = 580;
+
 var clickCount = 0; //compte le nombre de click pour savoir quel joueur doit jouer
 var player1 = new Player("yellow", false);
 var player2 = new Player("red", true);
@@ -16,21 +20,18 @@ var positions = [
 ];
 
 ctx.scale(0.8, 0.8);
+
 drawBoard();
+
+// le plateau est dessiné comme un succession de bandes horizontales et de bandes verticales
 function drawBoard() {
-  // le plateau est dessiné comme un succession de bandes horizontales et de bandes verticales
-
-  //canvas.style.border = "1px solid red";
-
   ctx.fillStyle = "#0000FF";
-
+  // 6 lignes
   for (var i = 0; i < 7; i++) {
-    // 6 lignes
-
     ctx.fillRect(0, 100 + 100 * i, 700, 20);
   }
-
-  ctx.fillRect(0, 100, 10, 600); // 7 colonnes
+  // 7 colonnes
+  ctx.fillRect(0, 100, 10, 600);
   for (var j = 0; j < 6; j++) {
     ctx.fillRect(90 + 100 * j, 100, 20, 600);
   }
@@ -41,6 +42,7 @@ function drawBoard() {
 document.getElementById("structure").addEventListener("click", function(evt) {
   // permet de connaître les coordonnées du point cliqué par la souris (evt.clientX,evt.clientY)
   var rect = canvas.getBoundingClientRect();
+  // repositionnement dans le canvas en tenant compte du décalage lors de la mise en page
   for (var j = 0; j < 7; j++) {
     if (
       evt.clientX - rect.left >= 100 * j * 0.8 &&
@@ -164,55 +166,48 @@ function testAlignWithDirection(x, y, vx, vy) {
 }
 
 function gameOver() {
-  // affichage du message "Gagné !" en fin de partie, si alignement de 4 jetons
+  // affichage du message "WON!" en fin de partie, si alignement de 4 jetons
   if (isWon()) {
     setTimeout(function() {
-      ctx.fillStyle = "black";
-      ctx.font = "22pt Trebuchet MS";
+      ctx.font = "bold 120pt Trebuchet MS";
+      ctx.fillStyle = "#7E7774";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      var centreX = canvasWidth / 2;
+      var centreY = canvasHeight / 2;
       ctx.save();
       clearInterval(intervalId);
-      ctx.fillText("Gagné !", 70, 50);
+      ctx.fillText("WON!", centreX, centreY + 100);
       ctx.restore();
     }, 3000);
   }
 
-       // BOUTON RESTART A REFAIRE
-  /*document.getElementById("restart-button").onclick = function() {
-    ctx.clearRect(0, 0, 710, 720);
-    clearInterval(intervalId);
-    
-    drawBoard();
-        
-    // ne permet pas de rejouer des jetons
-  };
-  */
-
-
-      // TEST MATCH NUL A REFAIRE
-  /* for (var i = 0; i < 6; i++) {   
-    for (var j = 0; j < 7; j++) {
-      if ( positions[x][y] !== 0 ) {
-          setTimeout(function() {
-            ctx.fillStyle = "black";
-            ctx.font = "22pt Trebuchet MS";
-            ctx.save();
-            clearInterval(intervalId);
-            ctx.fillText("Match nul !", 70, 50);
-            ctx.restore();  
-          }, 3000);
-      }
-    }
+  // affichage du message "DRAW!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
+  // ATTENTION !!! NE MARCHE PAS !!!
+  else if (clickCount === 42) {
+    setTimeout(function() {
+      ctx.font = "bold 120pt Trebuchet MS";
+      ctx.fillStyle = "#7E7774";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      var centreX = canvasWidth / 2;
+      var centreY = canvasHeight / 2;
+      ctx.save();
+      clearInterval(intervalId);
+      ctx.fillText("DRAW!", centreX, centreY + 100);
+      ctx.restore();
+    }, 3000);
   }
-  */
-
 }
-
-
-
-
-
-
-
+// BOUTON RESTART A REFAIRE
+document.getElementById("restart-button").onclick = function() {
+  ctx.clearRect(0, 0, 710, 720);
+  clearInterval(intervalId);
+  drawBoard(); 
+  setInterval(update, 20);
+  
+  // ne permet pas de rejouer des jetons
+};
 
 //---------------------------------------------------------------------
 /*if (positions[x][y].player.color === "yellow") {
