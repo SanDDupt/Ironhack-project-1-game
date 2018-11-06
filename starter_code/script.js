@@ -128,7 +128,7 @@ function isWon() {
     for (var j = 0; j < 7; j++) {
       var result = testAlign(i, j);
       if (result) {
-        position[i][j].player.score++;
+        //position[i][j].player.score++;
         return true;
       }
     }
@@ -167,9 +167,18 @@ function testAlignWithDirection(x, y, vx, vy) {
     positions[x + 2 * vx][y + 2 * vy].player === positions[x][y].player &&
     positions[x + 3 * vx][y + 3 * vy].player === positions[x][y].player
   ) {
+    //position[x][y].player.score++;
     return true;
   }
   return false;
+}
+
+function updateScore() {
+  var yellowScore = document.getElementById("yellow-score");
+  yellowScore.innerHTML = player1.score;
+
+  var redScore = document.getElementById("red-score");
+  redScore.innerHTML = player2.score;
 }
 
 function gameOver() {
@@ -186,7 +195,9 @@ function gameOver() {
       clearInterval(intervalId);
       ctx.fillText("WON!", centreX, centreY + 100);
       ctx.restore();
-    }, 3000);
+
+      updateScore();
+    }, 2000);
   }
 
   // affichage du message "DRAW!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
@@ -202,7 +213,7 @@ function gameOver() {
       clearInterval(intervalId);
       ctx.fillText("DRAW!", centreX, centreY + 100);
       ctx.restore();
-    }, 3000);
+    }, 2000);
   }
 }
 // BOUTON RESTART
@@ -227,9 +238,3 @@ document.getElementById("restart-button").onclick = function() {
   update();
   intervalId = setInterval(update, 20);
 };
-
-//---------------------------------------------------------------------
-/*if (positions[x][y].player.color === "yellow") {
-      ctx.fillText("Le gagnant est le joueur jaune", 70, 50);
-      }
-      else {ctx.fillText("Le gagnant est le joueur rouge", 70, 50);}*/
