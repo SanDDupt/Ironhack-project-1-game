@@ -48,6 +48,11 @@ document.getElementById("structure").addEventListener("click", function(evt) {
       evt.clientX - rect.left >= 100 * j * 0.8 &&
       evt.clientX - rect.left < (100 + 100 * j) * 0.8
     ) {
+      if (positions[0][j] !== 0) {
+        // empêche de placer plus de 6 jetons par colonne
+        return;
+      }
+
       x = 50 + 100 * j; //position initiale du jeton
       y = 50;
 
@@ -102,6 +107,7 @@ function Jeton(x, y, player) {
 function Player(color, even) {
   this.color = color; // Joueur1/"#FFFF00" ; Joueur2/"#FF0000"
   this.even = even; // c'est un booléan : Joueur1/FALSE ; Joueur2/TRUE
+  this.score = 0;
 }
 
 function update() {
@@ -122,6 +128,7 @@ function isWon() {
     for (var j = 0; j < 7; j++) {
       var result = testAlign(i, j);
       if (result) {
+        position[i][j].player.score++;
         return true;
       }
     }
@@ -149,9 +156,9 @@ function testAlignWithDirection(x, y, vx, vy) {
   // test dans les 8 directions, avec test d'arrêt quand on sort du plateau
   if (
     x + 3 * vx < 0 ||
-    x + 3 * vx > 6 ||
+    x + 3 * vx >= 6 ||
     y + 3 * vy < 0 ||
-    y + 3 * vy > 7 ||
+    y + 3 * vy >= 7 ||
     positions[x][y] === 0
   ) {
     return false;
@@ -183,7 +190,6 @@ function gameOver() {
   }
 
   // affichage du message "DRAW!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
-  // ATTENTION !!! NE MARCHE PAS !!!
   else if (clickCount === 42) {
     setTimeout(function() {
       ctx.font = "bold 120pt Trebuchet MS";
@@ -199,14 +205,27 @@ function gameOver() {
     }, 3000);
   }
 }
-// BOUTON RESTART A REFAIRE
+// BOUTON RESTART
 document.getElementById("restart-button").onclick = function() {
-  ctx.clearRect(0, 0, 710, 720);
   clearInterval(intervalId);
-  drawBoard(); 
-  setInterval(update, 20);
-  
-  // ne permet pas de rejouer des jetons
+  ctx.clearRect(0, 0, 710, 720);
+  drawBoard();
+
+  clickCount = 0;
+  player1 = new Player("yellow", false);
+  player2 = new Player("red", true);
+  jetons = [];
+  positions = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ];
+
+  update();
+  intervalId = setInterval(update, 20);
 };
 
 //---------------------------------------------------------------------
@@ -214,10 +233,3 @@ document.getElementById("restart-button").onclick = function() {
       ctx.fillText("Le gagnant est le joueur jaune", 70, 50);
       }
       else {ctx.fillText("Le gagnant est le joueur rouge", 70, 50);}*/
-
-/*else {                          //Match NUL : seulement à la fin du jeu
-    ctx.fillStyle = "black";
-    ctx.save();
-    ctx.fillText("Match nul", 5, 15);
-    ctx.restore();
-  }*/
