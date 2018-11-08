@@ -19,9 +19,8 @@ var positions = [
   [0, 0, 0, 0, 0, 0, 0]
 ];
 
-var audioWon = new Audio('audio_file_Won.mp3');
-var audioDraw = new Audio('audio_file_Draw.mp3');
-
+var audioWon = new Audio("audio_file_Won.mp3");
+var audioDraw = new Audio("audio_file_Draw.mp3");
 
 ctx.scale(0.8, 0.8);
 
@@ -123,7 +122,7 @@ function update() {
   });
   drawBoard(); // plateau dessiné après les jetons pour que ces derniers descendent derrière
 }
-var intervalId = setInterval(update, 20);
+var intervalId = setInterval(update, 20); // la fonction setInterval() renvoie un identifiant rangé dans une variable
 
 function isWon() {
   // retourne un boolean, suivant qu'il y a un gagnant (true) ou aucun gagnant (false)
@@ -132,7 +131,6 @@ function isWon() {
       var result = testAlign(i, j);
       if (result) {
         positions[i][j].player.score++;
-        //audioWon.play(); placé à cet endroit ?
         return true;
       }
     }
@@ -176,6 +174,7 @@ function testAlignWithDirection(x, y, vx, vy) {
 }
 
 function updateScore() {
+  // écrire dans les boutons jaune et rouge pour les scores
   var yellowScore = document.getElementById("yellow-score");
   yellowScore.innerHTML = player1.score;
 
@@ -198,9 +197,9 @@ function gameOver() {
       ctx.fillText("WON!", centreX, centreY + 100);
       ctx.restore();
 
-      updateScore();
+      updateScore(); // incrémentation du score
 
-      audioWon.play();
+      audioWon.play(); // appel du jingle "Won"
     }, 3000);
   }
 
@@ -218,8 +217,8 @@ function gameOver() {
       ctx.fillText("DRAW!", centreX, centreY + 100);
       ctx.restore();
 
-      audioDraw.play();
-    }, 3000);
+      audioDraw.play(); // appel du jingle "Draw"
+    }, 2000);
   }
 }
 // BOUTON RESTART
@@ -228,7 +227,7 @@ document.getElementById("restart-button").onclick = function() {
   ctx.clearRect(0, 0, 710, 720);
   drawBoard();
 
-  clickCount = 0;
+  clickCount = 0; // réinitialisation de toutes les variables nécessaires (pas de players !)
   jetons = [];
   positions = [
     [0, 0, 0, 0, 0, 0, 0],
