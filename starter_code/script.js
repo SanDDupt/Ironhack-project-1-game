@@ -19,6 +19,10 @@ var positions = [
   [0, 0, 0, 0, 0, 0, 0]
 ];
 
+var audioWon = new Audio('audio_file_Won.mp3');
+var audioDraw = new Audio('audio_file_Draw.mp3');
+
+
 ctx.scale(0.8, 0.8);
 
 drawBoard();
@@ -128,6 +132,7 @@ function isWon() {
       var result = testAlign(i, j);
       if (result) {
         positions[i][j].player.score++;
+        //audioWon.play(); placé à cet endroit ?
         return true;
       }
     }
@@ -194,6 +199,8 @@ function gameOver() {
       ctx.restore();
 
       updateScore();
+
+      audioWon.play();
     }, 3000);
   }
 
@@ -210,6 +217,8 @@ function gameOver() {
       clearInterval(intervalId);
       ctx.fillText("DRAW!", centreX, centreY + 100);
       ctx.restore();
+
+      audioDraw.play();
     }, 3000);
   }
 }
