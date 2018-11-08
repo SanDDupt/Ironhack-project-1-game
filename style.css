@@ -27,6 +27,7 @@ h1 {
 }
 p {
   display: flex;
+  padding-top: 9%;
 }
 
 #restart-button {
