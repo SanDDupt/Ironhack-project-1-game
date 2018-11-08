@@ -96,7 +96,6 @@ function Jeton(x, y, player) {
     ctx.fill();
   };
   this.maxy = 0;
-
   this.goDown = function() {
     if (this.y <= this.maxy - this.vy) {
       this.y += this.vy;
@@ -128,7 +127,7 @@ function isWon() {
     for (var j = 0; j < 7; j++) {
       var result = testAlign(i, j);
       if (result) {
-        //position[i][j].player.score++;
+        positions[i][j].player.score++;
         return true;
       }
     }
@@ -137,7 +136,6 @@ function isWon() {
 }
 
 function testAlign(x, y) {
-  //
   for (var vx = -1; vx < 2; vx++) {
     for (var vy = -1; vy < 2; vy++) {
       if (vx === 0 && vy === 0) {
@@ -167,7 +165,6 @@ function testAlignWithDirection(x, y, vx, vy) {
     positions[x + 2 * vx][y + 2 * vy].player === positions[x][y].player &&
     positions[x + 3 * vx][y + 3 * vy].player === positions[x][y].player
   ) {
-    //position[x][y].player.score++;
     return true;
   }
   return false;
@@ -197,7 +194,7 @@ function gameOver() {
       ctx.restore();
 
       updateScore();
-    }, 2000);
+    }, 3000);
   }
 
   // affichage du message "DRAW!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
@@ -213,7 +210,7 @@ function gameOver() {
       clearInterval(intervalId);
       ctx.fillText("DRAW!", centreX, centreY + 100);
       ctx.restore();
-    }, 2000);
+    }, 3000);
   }
 }
 // BOUTON RESTART
@@ -223,8 +220,6 @@ document.getElementById("restart-button").onclick = function() {
   drawBoard();
 
   clickCount = 0;
-  player1 = new Player("yellow", false);
-  player2 = new Player("red", true);
   jetons = [];
   positions = [
     [0, 0, 0, 0, 0, 0, 0],
