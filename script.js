@@ -214,7 +214,7 @@ function gameOver() {
       var centreY = canvasHeight / 2;
       ctx.save();
       clearInterval(intervalId);
-      ctx.fillText("DRAW!", centreX, centreY + 100);
+      ctx.fillText("IMPASSE!", centreX, centreY + 100);
       ctx.restore();
 
       audioDraw.play(); // appel du jingle "Draw"
