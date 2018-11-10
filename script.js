@@ -20,7 +20,7 @@ var positions = [
 ];
 
 var audioWon = new Audio("audio_file_Won.mp3");
-var audioDraw = new Audio("audio_file_Draw.mp3");
+var audioImpasse = new Audio("audio_file_Impasse.mp3");
 
 ctx.scale(0.8, 0.8);
 
@@ -203,7 +203,7 @@ function gameOver() {
     }, 3000);
   }
 
-  // affichage du message "DRAW!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
+  // affichage du message "IMPASSE!" en fin de partie, si les 42 jetons ont été joués sans obtenir d'alignement
   else if (clickCount === 42) {
     setTimeout(function() {
       ctx.font = "bold 120pt Trebuchet MS";
@@ -217,7 +217,7 @@ function gameOver() {
       ctx.fillText("IMPASSE!", centreX, centreY + 100);
       ctx.restore();
 
-      audioDraw.play(); // appel du jingle "Draw"
+      audioImpasse.play(); // appel du jingle "Impasse"
     }, 2000);
   }
 }
